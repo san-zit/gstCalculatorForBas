@@ -324,12 +324,27 @@ const Expenses = () => {
               11
           ).toFixed(2)}
         </p>
-        <hr></hr>
+       
       </div>
       <div>
         <button className="clear-btn" onClick={handlePrint}>
           Print or Save as PDF
         </button>
+      </div>
+      <hr></hr>
+      <div className="disclaimer">
+        <h3>Disclaimer</h3>
+        <p>
+         Calculations in this application are based on
+          publicly available information from the Australian Taxation Office (ATO).
+          However, please be aware that any changes to the tax rates or
+          regulations made by the ATO may take some time to be reflected in this
+          app.
+        </p>
+        <p>
+          Consult with a registered tax agent or financial
+          professional if you need more details. 
+        </p>
       </div>
     </>
   );
