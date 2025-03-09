@@ -9,6 +9,7 @@ const quarterData = {
 };
 
 const Expenses = () => {
+  const [selectYear, setSelectYear] = useState("");
   const [selectedQuarter, setSelectedQuarter] = useState("");
   const [months, setMonths] = useState(["Month 1", "Month 2", "Month 3"]);
   const [expenses, setExpenses] = useState({
@@ -30,14 +31,22 @@ const Expenses = () => {
   });
   const [warning, setWarning] = useState(false);
 
-  
-
   //print the page
-    const handlePrint = () => {
-      window.print();
-    };
-  
+  const handlePrint = () => {
+    window.print();
+  };
 
+  const handleYearSelectChange = (event) => {
+    const year = Number(event.target.value); // Convert string to number
+    setSelectYear(year);
+
+    if (!year) {
+      // Check for empty value instead of isNaN
+      setWarning(true);
+    } else {
+      setWarning(false);
+    }
+  };
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedQuarter(selectedValue);
@@ -48,7 +57,7 @@ const Expenses = () => {
   };
 
   const handleInputChange = (expense, monthIndex, value) => {
-    if (!selectedQuarter) {
+    if (!selectedQuarter || !selectYear) {
       setWarning(true); // Show warning if a quarter is not selected
       return;
     }
@@ -86,7 +95,6 @@ const Expenses = () => {
     return Object.values(income).reduce(
       (total, income) => total + income[monthIndex],
       0
-      
     );
   };
 
@@ -141,7 +149,7 @@ const Expenses = () => {
           <option value="Q4">Q4 Apr, May, Jun</option>
         </select>
         <label>Select the Year</label>
-        <select>
+        <select onChange={handleYearSelectChange}>
           <option value="">Choose the year</option>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
@@ -159,7 +167,7 @@ const Expenses = () => {
       </h5>
       {warning && (
         <p style={{ color: "red", fontWeight: "bold" }}>
-          ⚠ Please select a quarter before entering values.
+          ⚠ Please select a quarter and year before entering values.
         </p>
       )}
 
@@ -324,7 +332,6 @@ const Expenses = () => {
               11
           ).toFixed(2)}
         </p>
-       
       </div>
       <div>
         <button className="clear-btn" onClick={handlePrint}>
@@ -335,15 +342,14 @@ const Expenses = () => {
       <div className="disclaimer">
         <h3>Disclaimer</h3>
         <p>
-         Calculations in this application are based on
-          publicly available information from the Australian Taxation Office (ATO).
-          However, please be aware that any changes to the tax rates or
-          regulations made by the ATO may take some time to be reflected in this
-          app.
+          Calculations in this application are based on publicly available
+          information from the Australian Taxation Office (ATO). However, please
+          be aware that any changes to the tax rates or regulations made by the
+          ATO may take some time to be reflected in this app.
         </p>
         <p>
-          Consult with a registered tax agent or financial
-          professional if you need more details. 
+          Consult with a registered tax agent or financial professional if you
+          need more details.
         </p>
       </div>
     </>
